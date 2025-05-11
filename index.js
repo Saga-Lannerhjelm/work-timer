@@ -174,7 +174,7 @@ function renderEvents(events, activitesFromLocal) {
 
 function showTotal(activitesFromLocal) {
   console.log(activitesFromLocal);
-
+  totalContainer.innerHTML = "";
   const eventWithTime = activitesFromLocal
     .map((a) => ({
       ...a,
