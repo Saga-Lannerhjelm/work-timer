@@ -84,13 +84,9 @@ function renderList(activity) {
     const selectedActivity = updatedActivities.find(
       (a) => a.name === e.target.innerText
     );
-    console.log("target", e.target.innerHTML);
-    console.log("started", startedActivity);
-    console.log("selected", selectedActivity);
 
     if (!startedActivity) {
       // start timer
-      console.log("start");
       updatedActivities[
         updatedActivities.indexOf(selectedActivity)
       ].events.push({
@@ -106,12 +102,8 @@ function renderList(activity) {
       setLocalItem(activities, updatedActivities);
       setLocalItem(startedActivityKey, selectedActivity.name);
     } else {
-      console.log("in else");
-      console.log(startedActivity.name === selectedActivity.name);
-      console.log(updatedActivities);
       if (startedActivity === selectedActivity.name) {
         // end timer
-        console.log("stop");
         updatedActivities[
           updatedActivities.indexOf(selectedActivity)
         ].events.at(-1).end = new Date();
@@ -173,7 +165,6 @@ function renderEvents(events, activitesFromLocal) {
 }
 
 function showTotal(activitesFromLocal) {
-  console.log(activitesFromLocal);
   totalContainer.innerHTML = "";
   const eventWithTime = activitesFromLocal
     .map((a) => ({
@@ -182,7 +173,6 @@ function showTotal(activitesFromLocal) {
     }))
     .filter((a) => a.events.length > 0);
 
-  console.log(eventWithTime);
   const totalTime = activitesFromLocal.reduce(
     (acc, activity) =>
       acc +
@@ -220,31 +210,20 @@ function showTotal(activitesFromLocal) {
     result.appendChild(header);
     result.appendChild(time);
     totalContainer.appendChild(result);
-
-    //return " " + ac.name + ": " + getTime(totalTime);
   });
-
-  console.log(totalTime);
 
   const totalSecondsInWorkDay = 8 * 60 * 60;
   const percentWorked =
     ((totalTime % (1000 * 60)) / 1000 / totalSecondsInWorkDay) * 100;
 
-  console.log(percentWorked);
-
-  // totalBar.offsetWidth
   totalBar.style.border = "1px solid #dddddd";
   progress.style.backgroundColor = "gray";
   progress.style.width = percentWorked + "%";
-
-  //totalContainer.innerText = "TOTAL: " + getTime(totalTime);
 }
 
 function sortEvents(activities) {
-  console.log("sort events");
   const allEvents = activities
     .flatMap((activity) => {
-      console.log(activity);
       if (!Array.isArray(activity.events)) return [];
 
       return activity.events.map((ev) => ({
@@ -259,82 +238,8 @@ function sortEvents(activities) {
   return allEvents.sort((a, b) => new Date(a.start) - new Date(b.start));
 }
 
-// const root = document.getElementById("root");
-// const list = document.getElementById("list");
-
-// let startTime;
-// let currentTimeViewer;
-// let listTimes = [];
-
-// function getCurrent() {
-//   startTime = new Date();
-//   currentTimeViewer = startTime.toLocaleString("sv-SE", {
-//     hour: "numeric",
-//     minute: "numeric",
-//   });
-// }
-// getCurrent();
-
-// //Input
-// const inputContainer = document.createElement("div");
-// const input = document.createElement("input");
-// input.setAttribute("type", "time");
-// input.setAttribute("value", currentTimeViewer);
-// const confirmBtn = document.createElement("button");
-// confirmBtn.innerText = "Add time";
-
-// //Radio
-// const radioContainer1 = document.createElement("div");
-// const radio1 = document.createElement("input");
-// radio1.setAttribute("type", "radio");
-// radio1.setAttribute("name", "startOrEnd");
-// radio1.setAttribute("value", "start");
-// radio1.setAttribute("id", "start");
-// radio1.setAttribute("checked", "true");
-// const label1 = document.createElement("label");
-// label1.innerText = "start";
-// label1.setAttribute("for", "start");
-// radioContainer1.appendChild(radio1);
-// radioContainer1.appendChild(label1);
-
-// const radioContainer2 = document.createElement("div");
-// const radio2 = document.createElement("input");
-// radio2.setAttribute("type", "radio");
-// radio2.setAttribute("name", "startOrEnd");
-// radio2.setAttribute("value", "end");
-// radio2.setAttribute("id", "end");
-// const label2 = document.createElement("label");
-// label2.innerText = "end";
-// label2.setAttribute("for", "end");
-// radioContainer1.appendChild(radio2);
-// radioContainer1.appendChild(label2);
-
-// //Message
-// const inputMessage = document.createElement("input");
-// inputMessage.setAttribute("type", "text");
-// inputMessage.setAttribute("placeholder", "Task");
-
-// //Button click
-// confirmBtn.addEventListener("click", () => {
-//   if (inputMessage.value != "") {
-//     listTimes.push({
-//       time: input.value,
-//       type: radio1.checked ? radio1.value : radio2.value,
-//       message: inputMessage.value,
-//     });
-//     console.log(listTimes);
-//   }
-//   const listItem = document.createElement("li");
-//   listItem.innerHTML = input.value;
-//   list.appendChild(listItem);
-// });
-
 //Appends
 inputContainer.appendChild(colorInput);
 inputContainer.appendChild(input);
-// inputContainer.appendChild(radioContainer1);
-// inputContainer.appendChild(radioContainer2);
-// inputContainer.appendChild(inputMessage);
 inputContainer.appendChild(confirmBtn);
-
 root.appendChild(inputContainer);
