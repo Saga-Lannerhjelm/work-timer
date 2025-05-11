@@ -166,14 +166,14 @@ function renderEvents(events, activitesFromLocal) {
 
 function showTotal(activitesFromLocal) {
   totalContainer.innerHTML = "";
-  const eventWithTime = activitesFromLocal
+  const activitiedFilteredByEndTime = activitesFromLocal
     .map((a) => ({
       ...a,
       events: a.events.filter((ev) => ev.end !== null),
     }))
     .filter((a) => a.events.length > 0);
 
-  const totalTime = activitesFromLocal.reduce(
+  const totalTime = activitiedFilteredByEndTime.reduce(
     (acc, activity) =>
       acc +
       activity.events.reduce(
@@ -194,7 +194,7 @@ function showTotal(activitesFromLocal) {
   result.appendChild(time);
   totalContainer.appendChild(result);
 
-  eventWithTime.map((ac) => {
+  activitiedFilteredByEndTime.map((ac) => {
     const totalTime = ac.events.reduce(
       (acc, e) => acc + (new Date(e.end) - new Date(e.start)),
       0
