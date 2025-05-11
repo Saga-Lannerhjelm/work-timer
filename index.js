@@ -213,8 +213,9 @@ function showTotal(activitesFromLocal) {
   });
 
   const totalSecondsInWorkDay = 8 * 60 * 60;
+  const totalTimeWorkedInSeconds = totalTime / 1000;
   const percentWorked =
-    ((totalTime % (1000 * 60)) / 1000 / totalSecondsInWorkDay) * 100;
+    (totalTimeWorkedInSeconds / totalSecondsInWorkDay) * 100;
 
   totalBar.style.border = "1px solid #dddddd";
   progress.style.backgroundColor = "gray";
