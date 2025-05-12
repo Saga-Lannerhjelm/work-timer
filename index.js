@@ -1,6 +1,7 @@
 const root = document.getElementById("root");
 const list = document.getElementById("list");
 const eventlistContainer = document.getElementById("eventlist");
+const notesInputContainer = document.getElementById("notes-input");
 const totalContainer = document.getElementById("total");
 const totalBar = document.getElementById("total-bar");
 const progress = document.getElementById("progress");
@@ -26,12 +27,18 @@ const inputContainer = document.createElement("div");
 inputContainer.classList.add("input-container");
 const input = document.createElement("input");
 input.setAttribute("type", "text");
-input.setAttribute("placeholder", "Aktivitet");
+input.setAttribute("placeholder", "Activity");
 
 // Color input
 const colorInput = document.createElement("input");
 colorInput.setAttribute("type", "color");
 colorInput.classList.add("color-picker");
+
+// Notes input
+const notesInput = document.createElement("input");
+notesInput.setAttribute("type", "text");
+notesInput.setAttribute("placeholder", "Note");
+notesInputContainer.style.visibility = "hidden";
 
 // Button
 const confirmBtn = document.createElement("button");
@@ -85,15 +92,18 @@ function renderList(activity) {
       (a) => a.name === e.target.innerText
     );
 
+    const clickedActivity =
+      updatedActivities[updatedActivities.indexOf(selectedActivity)];
+
     if (!startedActivity) {
       // start timer
-      updatedActivities[
-        updatedActivities.indexOf(selectedActivity)
-      ].events.push({
+      clickedActivity.events.push({
         start: new Date(),
         end: null,
         note: "",
       });
+
+      notesInputContainer.style.visibility = "visible";
 
       const selectedElement = document.getElementById(activity.name);
       selectedElement.style.color = "white";
@@ -104,9 +114,11 @@ function renderList(activity) {
     } else {
       if (startedActivity === selectedActivity.name) {
         // end timer
-        updatedActivities[
-          updatedActivities.indexOf(selectedActivity)
-        ].events.at(-1).end = new Date();
+        clickedActivity.events.at(-1).end = new Date();
+        clickedActivity.events.at(-1).note = notesInput.value;
+
+        notesInputContainer.style.visibility = "hidden";
+        notesInput.value = "";
 
         const selectedElement = document.getElementById(activity.name);
         selectedElement.style.color = "black";
@@ -154,11 +166,15 @@ function renderEvents(events, activitesFromLocal) {
       getTimeDifference(new Date(event.start), new Date(event.end)) +
       ")";
 
+    const note = document.createElement("p");
+    note.innerText = event.note;
+
     dataContainer.appendChild(activityname);
     dataContainer.appendChild(time);
 
     list.appendChild(marker);
     list.appendChild(dataContainer);
+    list.appendChild(note);
     eventList.appendChild(list);
   }
   showTotal(activitesFromLocal);
@@ -243,4 +259,5 @@ function sortEvents(activities) {
 inputContainer.appendChild(colorInput);
 inputContainer.appendChild(input);
 inputContainer.appendChild(confirmBtn);
+notesInputContainer.appendChild(notesInput);
 root.appendChild(inputContainer);
