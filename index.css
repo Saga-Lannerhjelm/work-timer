@@ -150,3 +150,20 @@ button {
     height: 100%;
   }
 }
+
+.delete-button {
+  word-break: none;
+  display: block;
+  width: 120px;
+  padding: 5px;
+  background-color: rgb(222, 66, 84);
+  margin-top: 20px;
+  margin-right: 20px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+button:hover {
+  cursor: pointer;
+}

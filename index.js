@@ -5,6 +5,7 @@ const notesInputContainer = document.getElementById("notes-input");
 const totalContainer = document.getElementById("total");
 const totalBar = document.getElementById("total-bar");
 const progress = document.getElementById("progress");
+const deleteButton = document.getElementById("delete-btn");
 
 const activities = "activities";
 const startedActivityKey = "startedActivity";
@@ -268,6 +269,22 @@ function sortEvents(activities) {
     .filter((ev) => ev.end !== null);
 
   return allEvents.sort((a, b) => new Date(a.start) - new Date(b.start));
+}
+
+deleteButton.addEventListener("click", deleteEvents);
+
+function deleteEvents() {
+  const currentActivities = getItem(activities);
+
+  const updatedActivities = currentActivities.map((a) => ({
+    ...a,
+    events: [],
+  }));
+
+  setLocalItem(activities, updatedActivities);
+  localStorage.removeItem(startedActivityKey);
+
+  renderEvents(sortEvents(updatedActivities), currentActivities);
 }
 
 //Appends
