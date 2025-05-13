@@ -123,9 +123,9 @@ function handleActivity(e) {
 
     notesInputContainer.style.visibility = "visible";
 
-    const selectedElement = document.getElementById(activity.name);
+    const selectedElement = document.getElementById(clickedActivity.name);
     selectedElement.style.color = "white";
-    selectedElement.style.backgroundColor = activity.color;
+    selectedElement.style.backgroundColor = clickedActivity.color;
 
     setLocalItem(activities, updatedActivities);
     setLocalItem(startedActivityKey, selectedActivity.name);
@@ -137,7 +137,7 @@ function handleActivity(e) {
     notesInputContainer.style.visibility = "hidden";
     notesInput.value = "";
 
-    const selectedElement = document.getElementById(activity.name);
+    const selectedElement = document.getElementById(clickedActivity.name);
     selectedElement.style.color = "black";
     selectedElement.style.backgroundColor = "transparent";
 
