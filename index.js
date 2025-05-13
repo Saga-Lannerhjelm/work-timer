@@ -100,50 +100,51 @@ function renderList(activity) {
     listItem.style.backgroundColor = activity.color;
   }
 
-  listItem.addEventListener("click", (e) => {
-    const startedActivity = getItem(startedActivityKey) ?? undefined;
-    const updatedActivities = getItem(activities);
-    const selectedActivity = updatedActivities.find(
-      (a) => a.name === e.target.innerText
-    );
+  listItem.addEventListener("click", handleActivity);
+}
 
-    const clickedActivity =
-      updatedActivities[updatedActivities.indexOf(selectedActivity)];
+function handleActivity(e) {
+  const startedActivity = getItem(startedActivityKey) ?? undefined;
+  const updatedActivities = getItem(activities);
+  const selectedActivity = updatedActivities.find(
+    (a) => a.name === e.target.innerText
+  );
 
-    if (!startedActivity) {
-      // start timer
-      clickedActivity.events.push({
-        start: new Date(),
-        end: null,
-        note: "",
-      });
+  const clickedActivity =
+    updatedActivities[updatedActivities.indexOf(selectedActivity)];
 
-      notesInputContainer.style.visibility = "visible";
+  if (!startedActivity) {
+    // start timer
+    clickedActivity.events.push({
+      start: new Date(),
+      end: null,
+      note: "",
+    });
 
-      const selectedElement = document.getElementById(activity.name);
-      selectedElement.style.color = "white";
-      selectedElement.style.backgroundColor = activity.color;
+    notesInputContainer.style.visibility = "visible";
 
-      setLocalItem(activities, updatedActivities);
-      setLocalItem(startedActivityKey, selectedActivity.name);
-    } else {
-      if (startedActivity === selectedActivity.name) {
-        // end timer
-        clickedActivity.events.at(-1).end = new Date();
+    const selectedElement = document.getElementById(activity.name);
+    selectedElement.style.color = "white";
+    selectedElement.style.backgroundColor = activity.color;
 
-        notesInputContainer.style.visibility = "hidden";
-        notesInput.value = "";
+    setLocalItem(activities, updatedActivities);
+    setLocalItem(startedActivityKey, selectedActivity.name);
+  }
+  if (startedActivity === selectedActivity.name) {
+    // end timer
+    clickedActivity.events.at(-1).end = new Date();
 
-        const selectedElement = document.getElementById(activity.name);
-        selectedElement.style.color = "black";
-        selectedElement.style.backgroundColor = "transparent";
+    notesInputContainer.style.visibility = "hidden";
+    notesInput.value = "";
 
-        localStorage.removeItem(startedActivityKey);
-        setLocalItem(activities, updatedActivities);
-        renderEvents(sortEvents(updatedActivities), updatedActivities);
-      }
-    }
-  });
+    const selectedElement = document.getElementById(activity.name);
+    selectedElement.style.color = "black";
+    selectedElement.style.backgroundColor = "transparent";
+
+    localStorage.removeItem(startedActivityKey);
+    setLocalItem(activities, updatedActivities);
+    renderEvents(sortEvents(updatedActivities), updatedActivities);
+  }
 }
 
 function renderEvents(events, activitesFromLocal) {
