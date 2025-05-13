@@ -40,6 +40,21 @@ notesInput.setAttribute("type", "text");
 notesInput.setAttribute("placeholder", "Note");
 notesInputContainer.style.visibility = "hidden";
 
+notesInput.addEventListener("input", updateEventNote);
+
+function updateEventNote(e) {
+  const storedActivities = getItem(activities);
+  const startedActivity = getItem(startedActivityKey) ?? undefined;
+  const selectedActivity = storedActivities.find(
+    (a) => a.name === startedActivity
+  );
+
+  storedActivities[storedActivities.indexOf(selectedActivity)].events.at(
+    -1
+  ).note = e.target.value;
+  setLocalItem(activities, storedActivities);
+}
+
 // Button
 const confirmBtn = document.createElement("button");
 confirmBtn.innerText = "+";
@@ -115,7 +130,6 @@ function renderList(activity) {
       if (startedActivity === selectedActivity.name) {
         // end timer
         clickedActivity.events.at(-1).end = new Date();
-        clickedActivity.events.at(-1).note = notesInput.value;
 
         notesInputContainer.style.visibility = "hidden";
         notesInput.value = "";
