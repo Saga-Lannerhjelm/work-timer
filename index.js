@@ -214,7 +214,9 @@ function renderEvents(events, activitesFromLocal) {
 
     list.appendChild(marker);
     list.appendChild(dataContainer);
-    list.appendChild(note);
+    if (event.note !== "") {
+      list.appendChild(note);
+    }
     eventList.appendChild(list);
   }
   showTotal(activitesFromLocal);
