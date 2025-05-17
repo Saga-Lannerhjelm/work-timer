@@ -197,9 +197,13 @@ function renderEvents(events, activitesFromLocal) {
     time.appendChild(endTime);
     time.appendChild(totalTime);
 
-    // Update time on blur
+    // Update time
     startTime.addEventListener("blur", (e) => {
       updateTime(e, activitesFromLocal, event, "start");
+    });
+
+    endTime.addEventListener("blur", (e) => {
+      updateTime(e, activitesFromLocal, event, "end");
     });
 
     const note = document.createElement("p");
