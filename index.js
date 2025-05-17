@@ -199,32 +199,7 @@ function renderEvents(events, activitesFromLocal) {
 
     // Update time on blur
     startTime.addEventListener("blur", (e) => {
-      const timeString = e.target.value;
-      const [hours, minutes] = timeString.split(":").map(Number);
-
-      // The adjusted time will automatically be for the current date. The days can not be changed yet -> To be added at a future update
-      const now = new Date();
-      const dateWithTime = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate(),
-        hours,
-        minutes
-      );
-
-      for (const activity of activitesFromLocal) {
-        let eventToModify = activity.events.find(
-          (e) => e.start === event.start
-        );
-
-        if (eventToModify) {
-          eventToModify.start = dateWithTime;
-          break;
-        }
-      }
-
-      setLocalItem(activities, activitesFromLocal);
-      renderEvents(sortEvents(activitesFromLocal), activitesFromLocal);
+      updateTime(e, activitesFromLocal, event, "start");
     });
 
     const note = document.createElement("p");
@@ -239,6 +214,38 @@ function renderEvents(events, activitesFromLocal) {
     eventList.appendChild(list);
   }
   showTotal(activitesFromLocal);
+}
+
+function updateTime(e, activitesFromLocal, event, type) {
+  const timeString = e.target.value;
+  const [hours, minutes] = timeString.split(":").map(Number);
+
+  // The adjusted time will automatically be for the current date. The days can not be changed yet -> To be added at a future update
+  const now = new Date();
+  const dateWithTime = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    hours,
+    minutes
+  );
+
+  for (const activity of activitesFromLocal) {
+    let eventToModify = activity.events.find((e) =>
+      type === "start" ? e.start === event.start : e.end === event.end
+    );
+
+    if (eventToModify) {
+      if (type === "start") {
+        eventToModify.start = dateWithTime;
+      } else {
+        eventToModify.end = dateWithTime;
+      }
+    }
+  }
+
+  setLocalItem(activities, activitesFromLocal);
+  renderEvents(sortEvents(activitesFromLocal), activitesFromLocal);
 }
 
 function showTotal(activitesFromLocal) {
