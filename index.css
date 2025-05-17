@@ -167,3 +167,19 @@ button {
 button:hover {
   cursor: pointer;
 }
+
+input[type="time"] {
+  border: none;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 14px;
+  color: black;
+  font-weight: normal;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+.event-time {
+  display: flex;
+}

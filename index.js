@@ -167,20 +167,65 @@ function renderEvents(events, activitesFromLocal) {
     const activityname = document.createElement("h4");
     activityname.innerText = event.activityName;
 
-    const time = document.createElement("p");
-    time.innerText =
-      new Date(event.start).toLocaleString("sv-SE", {
-        hour: "numeric",
-        minute: "numeric",
-      }) +
-      " -> " +
-      new Date(event.end).toLocaleString("sv-SE", {
-        hour: "numeric",
-        minute: "numeric",
-      }) +
+    const time = document.createElement("div");
+    time.classList.add("event-time");
+    const totalTime = document.createElement("p");
+    const arrow = document.createElement("p");
+    arrow.innerText = " -> ";
+
+    const startTime = document.createElement("input");
+    startTime.setAttribute("type", "time");
+    startTime.value = new Date(event.start).toLocaleString("sv-SE", {
+      hour: "numeric",
+      minute: "numeric",
+    });
+
+    const endTime = document.createElement("input");
+    endTime.setAttribute("type", "time");
+    endTime.value = new Date(event.end).toLocaleString("sv-SE", {
+      hour: "numeric",
+      minute: "numeric",
+    });
+
+    totalTime.innerText =
       " (" +
       getTimeDifference(new Date(event.start), new Date(event.end)) +
       ")";
+
+    time.appendChild(startTime);
+    time.appendChild(arrow);
+    time.appendChild(endTime);
+    time.appendChild(totalTime);
+
+    // Update time on blur
+    startTime.addEventListener("blur", (e) => {
+      const timeString = e.target.value;
+      const [hours, minutes] = timeString.split(":").map(Number);
+
+      // The adjusted time will automatically be for the current date. The days can not be changed yet -> To be added at a future update
+      const now = new Date();
+      const dateWithTime = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        hours,
+        minutes
+      );
+
+      for (const activity of activitesFromLocal) {
+        let eventToModify = activity.events.find(
+          (e) => e.start === event.start
+        );
+
+        if (eventToModify) {
+          eventToModify.start = dateWithTime;
+          break;
+        }
+      }
+
+      setLocalItem(activities, activitesFromLocal);
+      renderEvents(sortEvents(activitesFromLocal), activitesFromLocal);
+    });
 
     const note = document.createElement("p");
     note.innerText = event.note;
