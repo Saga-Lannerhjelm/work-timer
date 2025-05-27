@@ -208,15 +208,16 @@ function renderEvents(events, activitesFromLocal) {
 
     const note = document.createElement("p");
     note.innerText = event.note;
+    note.classList.add("note-text");
 
     dataContainer.appendChild(activityname);
     dataContainer.appendChild(time);
+    if (event.note !== "") {
+      dataContainer.appendChild(note);
+    }
 
     list.appendChild(marker);
     list.appendChild(dataContainer);
-    if (event.note !== "") {
-      list.appendChild(note);
-    }
     eventList.appendChild(list);
   }
   showTotal(activitesFromLocal);
