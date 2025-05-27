@@ -2,8 +2,27 @@ html {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-body {
-  padding: 20px 10px;
+.top-section {
+  padding: 20px 10px 0px 10px;
+}
+
+.main-section {
+  padding: 0px 10px;
+  padding-bottom: 200px;
+}
+
+.bottom-section {
+  border-top: 1px solid #dddddd;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 0;
 }
 
 .input-container {
@@ -105,16 +124,13 @@ button {
   p {
     margin: 5px 0 0 0;
   }
-
-  li:nth-child(odd) {
-    /* background-color: rgb(236, 241, 233); */
-  }
 }
 
 .total-container {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
+  padding: 20px 20px 0 20px;
 
   span {
     display: flex;
@@ -141,10 +157,11 @@ button {
 .total-bar {
   position: relative;
   margin-bottom: 20px;
-  width: 400px;
-  height: 20px;
+  width: 70%;
+  height: 14px;
   border-radius: 30px;
   overflow: hidden;
+  margin: 0 20px;
   span {
     position: absolute;
     height: 100%;
@@ -182,4 +199,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 .event-time {
   display: flex;
+}
+
+.gradient {
+  background: #12c2e9; /* fallback for old browsers */
+  background: linear-gradient(to right, #8d66aa, #c6afd2, #e9e1f7);
 }

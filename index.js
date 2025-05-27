@@ -307,8 +307,9 @@ function showTotal(activitesFromLocal) {
   const percentWorked =
     (totalTimeWorkedInSeconds / totalSecondsInWorkDay) * 100;
 
-  totalBar.style.border = "1px solid #dddddd";
-  progress.style.backgroundColor = "gray";
+  totalBar.style.border = "1px solid #bbbbbb";
+  progress.classList.add("gradient");
+
   progress.style.width = percentWorked + "%";
 }
 

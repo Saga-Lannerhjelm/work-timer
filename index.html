@@ -7,12 +7,18 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <div id="root"></div>
-    <ul id="list" class="activity-list"></ul>
-    <div id="notes-input" class="notes-container"></div>
-    <div id="eventlist" class="event-list"></div>
-    <div id="total-bar" class="total-bar"><span id="progress"></span></div>
-    <div id="total" class="total-container"></div>
+    <div class="top-section">
+      <div id="root"></div>
+      <ul id="list" class="activity-list"></ul>
+      <div id="notes-input" class="notes-container"></div>
+    </div>
+    <div class="main-section">
+      <div id="eventlist" class="event-list"></div>
+    </div>
+    <div class="bottom-section">
+      <div id="total-bar" class="total-bar"><span id="progress"></span></div>
+      <div id="total" class="total-container"></div>
+    </div>
     <button id="delete-btn" class="delete-button">Delete all events</button>
   </body>
   <script src="timeFunctions.js" defer></script>
